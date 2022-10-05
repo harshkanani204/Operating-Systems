@@ -31,29 +31,16 @@ class Matrix {
     Matrix &operator=(const Matrix &m) = default;
     Matrix &operator=(Matrix &&m) = default;
 
-    // Operations: Matrix
-    Matrix operator+(const Matrix &m) const;    // Both should have same Dimensions
-    Matrix operator-(const Matrix &m) const;    // Both should have same Dimensions
-    Matrix operator*(const Matrix &m) const;    // Cols of First Matrix = Rows of Second Matrix
-
-    // Function to get transpose of the matrix
-    Matrix transpose() const noexcept;
-
-    // Function to get the determinant of the matrix
-    double deter() const;     // Should be square Matrix i.e. rows=cols
-   
+    // Operations: Scaler
+    Matrix operator+(double x) const noexcept;
+    Matrix operator-(double x) const noexcept;
+    Matrix operator*(double x) const noexcept;
+    Matrix operator/(double x) const;     // Division by Zero Exception
    
    private:
 
     int rows, cols;
     vector<vector<double>> matrix;
-
-    // Submatrix Function
-    vector<vector<double>> getRemainingSubmatrix(const vector<vector<double>> &m, int r, int c) const;
-
-    // Determinant Funtion
-    double determinant(const vector<vector<double>> &m, int n) const;
 };
-
 
 #endif  // _MATRIX_H_
