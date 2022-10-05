@@ -2,6 +2,7 @@
 #include "../include/Matrix.h"
 #include "../include/constants.h"
 #include "../include/exceptions.h"
+#include "../include/logger.h"
 #include <sstream>
 #include <bits/stdc++.h>
 using namespace std;
@@ -9,8 +10,10 @@ using namespace std;
 // Constructor
 Matrix::Matrix(int rows, int cols) 
     : rows{rows}, cols{cols} {
-    if (rows <= 0 || cols <= 0) {
-        throw InvalidDimentionInput();
+    if (rows <= 0 || cols <= 0) 
+    {
+        InvalidDimentionInput A;
+        Log::ThrowError(A.what());
     }
 
     matrix.assign(rows, vector<double>(cols, 0));
@@ -80,7 +83,8 @@ Matrix Matrix::operator/(double x) const
 {
     if (x == 0) 
     {
-        throw DividingByZeroException();
+        DividingByZeroException A;
+        Log::ThrowError(A.what());
     }
 
     Matrix result(this->rows, this->cols);
@@ -100,7 +104,8 @@ Matrix Matrix::operator+(const Matrix &m) const
 {
     if (this->rows != m.rows || this->cols != m.cols) 
     {
-        throw DimentionOperationException();
+        DimentionOperationException A;
+        Log::ThrowError(A.what());
     }
 
     Matrix result(this->rows, this->cols);
@@ -119,7 +124,8 @@ Matrix Matrix::operator-(const Matrix &m) const
 {
     if (this->rows != m.rows || this->cols != m.cols) 
     {
-        throw DimentionOperationException();
+        DimentionOperationException A;
+        Log::ThrowError(A.what());
     }
 
     Matrix result(this->rows, this->cols);
@@ -138,7 +144,8 @@ Matrix Matrix::operator*(const Matrix &m) const
 {
     if (this->cols != m.rows) 
     {
-        throw DimentionOperationException();
+        DimentionOperationException A;
+        Log::ThrowError(A.what());
     }
 
     Matrix result(this->rows, m.cols);
@@ -177,13 +184,15 @@ vector<vector<double>> Matrix::getRemainingSubmatrix(const vector<vector<double>
 
     if (currR <= 1 || currC <= 1) 
     {
-        throw InvalidDimentionInput();
+        InvalidDimentionInput A;
+        Log::ThrowError(A.what());
     }
 
 
     if (r < 0 || r >= currR || c < 0 || c >= currC) 
     {
-        throw OutOfBounds();
+        OutOfBounds A;
+        Log::ThrowError(A.what());
     }
 
     vector<vector<double>> result(currR - 1, vector<double>(currC - 1, 0));
@@ -239,23 +248,9 @@ double Matrix::deter() const
 {
     if (this->rows != this->cols) 
     {
-        throw DeterminantExeption();
+        DeterminantExeption A;
+        Log::ThrowError(A.what());
     }
 
     return determinant(this->matrix, this->rows);
-}
-
-ostream &operator<<(ostream &ostream, const Matrix &m) {
-    // Print
-    ostream << m.getRows() << " " << m.getCols() << "\n";
-    for (int i = 0; i < m.rows; i++) 
-    {
-        for (int j = 0; j < m.cols; j++) 
-        {
-            ostream << m.matrix[i][j] << ',';
-        }
-        ostream << "\n";
-    }
-
-    return ostream;
 }
