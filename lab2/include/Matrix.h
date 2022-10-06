@@ -18,9 +18,6 @@ class Matrix {
     // Using Default Move Constructor
     Matrix(Matrix &&m) = default;
 
-    // Destructor for Matrix
-    ~Matrix() noexcept;
-
     // Functions to get number of rows or cols
     int getRows() const noexcept;
     int getCols() const noexcept;
@@ -36,17 +33,16 @@ class Matrix {
     Matrix operator-(const Matrix &m) const;    // Both should have same Dimensions
     Matrix operator*(const Matrix &m) const;    // Cols of First Matrix = Rows of Second Matrix
 
+    vector<vector<double>> matrix;
     // Function to get transpose of the matrix
     Matrix transpose() const noexcept;
 
     // Function to get the determinant of the matrix
     double deter() const;     // Should be square Matrix i.e. rows=cols
    
-   
    private:
 
     int rows, cols;
-    vector<vector<double>> matrix;
 
     // Submatrix Function
     vector<vector<double>> getRemainingSubmatrix(const vector<vector<double>> &m, int r, int c) const;

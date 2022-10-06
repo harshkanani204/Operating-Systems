@@ -1,6 +1,5 @@
 // CPP File for Matrix
 #include "../include/Matrix.h"
-#include "../include/constants.h"
 #include "../include/exceptions.h"
 #include "../include/logger.h"
 #include <sstream>
@@ -19,6 +18,7 @@ Matrix::Matrix(int rows, int cols)
     matrix.assign(rows, vector<double>(cols, 0));
 }
 
+
 int Matrix::getRows() const noexcept {
     return this->rows;
 }
@@ -29,10 +29,6 @@ int Matrix::getCols() const noexcept {
 
 vector<vector<double>> Matrix::getMatrix() const noexcept {
     return this->matrix;
-}
-
-// Destructor
-Matrix ::~Matrix() noexcept {
 }
 
 // Operations: Matrix
