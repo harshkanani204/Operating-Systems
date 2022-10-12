@@ -54,7 +54,7 @@ test1:
 		echo "TEST1 Failed"; \
 	fi
 test2: 
-	./bin/main.exe -a < ./tests/test2.in > ./tests/test2.out
+	./bin/main.exe -s < ./tests/test2.in > ./tests/test2.out
 	cmp -s ./tests/test2.out ./tests/test2.exp; \
 	flag=$$?; \
 	if [$$flag -eq 0]; then \
@@ -64,7 +64,7 @@ test2:
 	fi
 
 test3: 
-	./bin/main.exe -a < ./tests/test3.in > ./tests/test3.out
+	./bin/main.exe -m < ./tests/test3.in > ./tests/test3.out
 	cmp -s ./tests/test3.out ./tests/test3.exp; \
 	flag=$$?; \
 	if [$$flag -eq 0]; then \
@@ -74,7 +74,7 @@ test3:
 	fi
 
 test4: 
-	./bin/main.exe -a < ./tests/test4.in > ./tests/test4.out
+	./bin/main.exe -T < ./tests/test4.in > ./tests/test4.out
 	cmp -s ./tests/test4.out ./tests/test4.exp; \
 	flag=$$?; \
 	if [$$flag -eq 0]; then \
@@ -84,7 +84,7 @@ test4:
 	fi
 
 test5: 
-	./bin/main.exe -a < ./tests/test5.in > ./tests/test5.out
+	./bin/main.exe -X < ./tests/test5.in > ./tests/test5.out
 	cmp -s ./tests/test5.out ./tests/test5.exp; \
 	flag=$$?; \
 	if [$$flag -eq 0]; then \
@@ -96,7 +96,7 @@ test5:
 tests:
 	for FILE in ./tests/*
 	do
-		./bin/main.exe -a < FILE > ./tests/${FILE}.out; \
+		./bin/main.exe < FILE > ./tests/${FILE}.out; \
 		cmp -s ./tests/${FILE}.out ./tests/${FILE}.exp; \
 		flag=$$?; \
 		if [$$flag -eq 0]; then \

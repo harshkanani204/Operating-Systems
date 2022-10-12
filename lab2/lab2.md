@@ -165,3 +165,6 @@ following rules:
         files, and the test cases (including their corresponding expected outputs).
         Should also delete the containing folders such as `build`.
 
+harsh = 180
+chavan = 261
+kaustubh = 629 - 441
