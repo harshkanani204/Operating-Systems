@@ -89,3 +89,16 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int sys_getcount(void)
+{
+  int whichSystemCall;
+  int x = argint(0,&whichSystemCall);
+
+  if(x >= 0 && x<=TOTAL_NUMBER_OF_SYSCALLS)
+  {
+    return myproc()->noOfSysCalls[whichSystemCall-1];
+  }
+
+  return -1;
+}
