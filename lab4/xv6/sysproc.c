@@ -97,7 +97,7 @@ int sys_getcount(void)
 
   if(x == 0)
   {
-    if(whichSystemCall>0 && whichSystemCall<=22)
+    if(whichSystemCall>0 && whichSystemCall<=TOTAL_NUMBER_OF_SYSCALLS)
     {
       return myproc()->noOfSysCalls[whichSystemCall-1];
     }
