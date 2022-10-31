@@ -89,3 +89,54 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int sys_v2paddr(void)
+{
+  addr_t *v_addr , *p_addr;
+  if (argptr(0, (void *) &p_addr, sizeof(*p_addr)) < 0)
+  {
+    cprintf("\tInvalid physical address.\n");
+    return -1;
+  }
+  if (argptr (1, (void *) &v_addr , sizeof(*v_addr)) < 0)
+  {
+    cprintf("\tInvalid virtual address.\n");
+    return -1;
+  }
+
+    
+  struct proc *currProcess = myproc();
+
+  pde_t *pgdir = currProcess->pgdir;
+  pde_t *pde = &pgdir[PDX(v_addr)];
+
+
+  pde_t *pgtab = (pte_t *)P2V(PTE_ADDR(*pde));  
+  pde_t *pte = &pgtab[PTX(v_addr)];              
+
+  if(!(*pte & PTE_P)) {
+      cprintf("\tPage table entry not found.\n");
+      return -1;  
+  }
+
+  if(!(*pte & PTE_U)) {
+      cprintf("\tPage table entry can't be accessed.\n");
+      return -1;  
+  }
+
+  if (!(*pde & PTE_P))
+  {
+    cprintf("\tPage directory entry not found.\n");
+    return -1;
+  }
+  if(!(*pde & PTE_U)) {
+      cprintf("\tPage directory entry can't be accessed.\n");
+      return -1;  
+  }
+
+
+  *p_addr = PTE_ADDR(*pte) | PTE_FLAGS(v_addr);
+
+  cprintf("\tVirtual address 0x%x is converted to physical address.\n" , v_addr);
+  return 0; 
+}
