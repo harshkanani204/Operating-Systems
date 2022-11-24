@@ -41,69 +41,34 @@ libs: build/main.o build/exceptions.o build/log.o build/Matrix.o build/Scalar.o 
 	
 
 run:
-	./bin/main.exe TO 
-
+	@echo "Program Started..."
+	@read Operation ; \
+ 	./bin/main.exe $$Operation < ./run.in  > ./run.out
+	@echo "Run Successful"
+	echo "./bin/main.exe " "$$Operation" " < ./run.in  > ./run.out " 
+	cat ./run.out
 
 test1: 
-	./bin/main.exe -a < ./tests/test1.in > ./tests/test1.out
-	cmp -s ./tests/test1.out ./tests/test1.exp; \
-	flag=$$?; \
-	if [$$flag -eq 0]; then \
-		echo "TEST1 Passed"; \
-	else
-		echo "TEST1 Failed"; \
-	fi
+	@./bin/main.exe  < ./tests/test1.in  DO -A > ./tests/test1.out
+	@./check.sh ./tests/test1.out  ./tests/test1.exp 1
+
 test2: 
-	./bin/main.exe -s < ./tests/test2.in > ./tests/test2.out
-	cmp -s ./tests/test2.out ./tests/test2.exp; \
-	flag=$$?; \
-	if [$$flag -eq 0]; then \
-		echo "TEST2 Passed"; \
-	else
-		echo "TEST2 Failed"; \
-	fi
+	@./bin/main.exe  < ./tests/test2.in  DO -M -d > ./tests/test2.out
+	@./check.sh ./tests/test2.out  ./tests/test2.exp 2
+	
 
 test3: 
-	./bin/main.exe -m < ./tests/test3.in > ./tests/test3.out
-	cmp -s ./tests/test3.out ./tests/test3.exp; \
-	flag=$$?; \
-	if [$$flag -eq 0]; then \
-		echo "TEST3 Passed"; \
-	else
-		echo "TEST3 Failed"; \
-	fi
+	@./bin/main.exe  < ./tests/test3.in  DO -m -X > ./tests/test3.out
+	@./check.sh ./tests/test3.out  ./tests/test3.exp 3
 
 test4: 
-	./bin/main.exe -T < ./tests/test4.in > ./tests/test4.out
-	cmp -s ./tests/test4.out ./tests/test4.exp; \
-	flag=$$?; \
-	if [$$flag -eq 0]; then \
-		echo "TEST4 Passed"; \
-	else
-		echo "TEST4 Failed"; \
-	fi
-
+	@./bin/main.exe  < ./tests/test4.in  DO -T -a -s  > ./tests/test4.out
+	@./check.sh ./tests/test4.out  ./tests/test4.exp 4
 test5: 
-	./bin/main.exe -X < ./tests/test5.in > ./tests/test5.out
-	cmp -s ./tests/test5.out ./tests/test5.exp; \
-	flag=$$?; \
-	if [$$flag -eq 0]; then \
-		echo "TEST4 Passed"; \
-	else
-		echo "TEST4 Failed"; \
-	fi
+	@./bin/main.exe  < ./tests/test5.in  DO -S -X > ./tests/test5.out
+	@./check.sh ./tests/test5.out  ./tests/test5.exp 5
 
-tests:
-	for FILE in ./tests/*
-	do
-		./bin/main.exe < FILE > ./tests/${FILE}.out; \
-		cmp -s ./tests/${FILE}.out ./tests/${FILE}.exp; \
-		flag=$$?; \
-		if [$$flag -eq 0]; then \
-			echo "${FILE} Passed"; \
-		else
-			echo "${FILE} Failed"; \
-		fi
-	done
+tests: test1 test2 test3 test4 test5
+
 clean:
-	rm -rf build bin lib
+	@rm -rf build bin lib tests/*.out Console.log
